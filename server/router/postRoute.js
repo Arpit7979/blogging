@@ -1,0 +1,19 @@
+import express from "express";
+import {
+  createPost,
+  deletePost,
+  getAllPost,
+  getSinglePost,
+  updatePost,
+} from "../controller/postController.js";
+import { useAuth } from "../middleware/useAuth.js";
+
+const postRouter = express.Router();
+
+postRouter.post("/create-post", useAuth, createPost);
+postRouter.get("/all-post", getAllPost);
+postRouter.get("/single-post/:id", getSinglePost);
+postRouter.put("/update-post/:id", useAuth, updatePost);
+postRouter.delete("/delete-post/:id", useAuth, deletePost);
+
+export default postRouter;
