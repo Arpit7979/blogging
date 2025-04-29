@@ -12,7 +12,7 @@ connectMongoDB();
 
 const allowedOrigin = [
   "http://localhost:5173",
-  "https://blogging-henna.vercel.app/",
+  "https://blogging-henna.vercel.app",
 ];
 app.use(express.json());
 app.use(cors({ origin: allowedOrigin, credentials: true }));
