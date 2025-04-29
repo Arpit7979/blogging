@@ -44,7 +44,15 @@ const HomePage = () => {
         <h1 className="text-5xl font-bold text-white">Loading....</h1>
       </div>
     );
-  if (posts.length === 0) return <h2>There is no Post. Create First Post</h2>;
+  if (posts.length === 0)
+    return (
+      <div className="bg-slate-900 w-screen h-screen flex items-center justify-center">
+        <h2 className="text-5xl font-bold text-white">
+          There is no Post. Create First Post
+        </h2>
+        ;
+      </div>
+    );
 
   return (
     <div>

@@ -10,7 +10,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 connectMongoDB();
 
-const allowedOrigin = ["http://localhost:5173"];
+const allowedOrigin = [
+  "http://localhost:5173",
+  "https://blogging-henna.vercel.app/",
+];
 app.use(express.json());
 app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(cookieParser());
