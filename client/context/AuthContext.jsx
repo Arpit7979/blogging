@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [isAuthonticated, setIsAuthonticated] = useState(false);
+  const [user, setUser] = useState();
 
   const logout = async () => {
     try {
@@ -22,6 +23,7 @@ export const AuthContextProvider = ({ children }) => {
       const { data } = await API.get("/auth/is-auth");
       if (data.Success) {
         setIsAuthonticated(true);
+        setUser(data.user);
       }
     } catch (error) {
       toast.error(error.message);
@@ -32,6 +34,6 @@ export const AuthContextProvider = ({ children }) => {
     getAuthState();
   }, []);
 
-  const value = { isAuthonticated, setIsAuthonticated, logout };
+  const value = { isAuthonticated, setIsAuthonticated, logout, user };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

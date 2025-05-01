@@ -39,7 +39,7 @@ const RegisterPage = () => {
     <div className="w-full h-screen bg-slate-900 text-white flex items-center justify-center">
       <Navbar />
       <form
-        className="md:w-[40%] w-[80%] md:h-[60%] h-[40%] flex flex-col items-center justify-center rounded-lg bg-gradient-to-l from-slate-600 to-slate-800"
+        className="md:w-[40%] w-[80%] md:h-[60%] h-[55%] flex flex-col items-center justify-center rounded-lg bg-gradient-to-l from-slate-600 to-slate-800 px-3"
         action=""
       >
         <h2 className="text-5xl font-bold mb-5">Register</h2>

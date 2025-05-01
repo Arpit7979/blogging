@@ -5,6 +5,7 @@ import "dotenv/config";
 import connectMongoDB from "./config/mongoose.js";
 import UserRouter from "./router/userRouter.js";
 import postRouter from "./router/postRoute.js";
+import commentRouter from "./router/commentRoute.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", UserRouter);
 app.use("/api/post", postRouter);
+app.use("/api/comment", commentRouter);
 
 app.get("/", (req, res) => {
   res.send("Hellow from server");

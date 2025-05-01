@@ -9,6 +9,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isActivePostId, setIsActivePostId] = useState(null);
 
   const getAllPost = async () => {
     try {
@@ -41,7 +42,9 @@ const HomePage = () => {
   if (loading)
     return (
       <div className="bg-slate-900 w-screen h-screen flex items-center justify-center">
-        <h1 className="text-5xl font-bold text-white">Loading....</h1>
+        <h1 className="text-5xl font-bold text-white">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </h1>
       </div>
     );
   if (posts.length === 0)
@@ -71,6 +74,10 @@ const HomePage = () => {
             post={post}
             key={post._id}
             deletePost={() => deletePost(post._id)}
+            getAllPost={getAllPost}
+            isActive={isActivePostId === post._id}
+            onOpen={() => setIsActivePostId(post._id)}
+            onClose={() => setIsActivePostId(null)}
           />
         ))}
         <div className="bg-slate-700 m-10 rounded-lg  hover:bg-slate-900 transition-all">

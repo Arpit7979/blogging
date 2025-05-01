@@ -49,7 +49,7 @@ export const updatePost = async (req, res) => {
     const { title, content } = req.body;
     post.title = title || post.title;
     post.content = content || post.content;
-    const updatedPost = await post.save();
+    await post.save();
     res.json({ Success: true, message: "Post updated" });
   } catch (error) {
     return res.json({ Success: false, message: error.message });
@@ -71,5 +71,39 @@ export const deletePost = async (req, res) => {
     res.json({ Success: true, message: "post deleted" });
   } catch (error) {
     return res.json({ Success: false, message: error.message });
+  }
+};
+
+//some extra featue
+
+//like post
+export const likePost = async (req, res) => {
+  try {
+    const post = await postModel.findById(req.params.id);
+    if (!post) return res.json({ Success: false, message: "Post not found" });
+    const userId = req.user._id;
+    let message = "";
+    const alreadyLiked = post.likedBy.includes(userId);
+    if (alreadyLiked) {
+      //remove like
+      post.likedBy = post.likedBy.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+      message = "Post Unliked";
+    } else {
+      //like
+      post.likedBy.push(userId);
+      message = "Post liked";
+    }
+    await post.save();
+    const updatedPost = await post.populate("likedBy", "name");
+    res.json({
+      Success: true,
+      likedBy: updatedPost.likedBy,
+      name: req.user.name,
+      message,
+    });
+  } catch (error) {
+    res.json({ Success: false, message: error.message });
   }
 };

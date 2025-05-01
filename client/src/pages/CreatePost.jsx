@@ -26,7 +26,7 @@ const CreatePost = () => {
     <div className="w-full h-screen bg-slate-900 text-white flex items-center justify-center">
       <Navbar />
       <form
-        className="w-[80%] md:h-[60%] h-[50%] flex flex-col items-center justify-center rounded-lg bg-gradient-to-l from-slate-600 to-slate-800 p-10"
+        className="w-[80%] md:h-[60%] h-[70%] flex flex-col items-center justify-center rounded-lg bg-gradient-to-l from-slate-600 to-slate-800 p-10"
         action=""
       >
         <h2 className="text-5xl font-bold mb-5">Create Post</h2>

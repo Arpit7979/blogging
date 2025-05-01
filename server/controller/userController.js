@@ -82,7 +82,11 @@ export const logoutUser = async (req, res) => {
 
 export const isAuth = async (req, res) => {
   try {
-    return res.json({ Success: true, message: "User is Authorized" });
+    return res.json({
+      Success: true,
+      message: "User is Authorized",
+      user: req.user,
+    });
   } catch (error) {
     return res.json({ Success: false, message: error.message });
   }
