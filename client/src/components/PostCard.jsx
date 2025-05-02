@@ -18,7 +18,7 @@ const PostCard = ({
   const { title, content, category } = post;
   const [likedBy, setLikedBy] = useState(post.likedBy);
   const [loading, setLoading] = useState(false);
-  const [bookmarkBy, setBookmarkBy] = useState(user.bookmarks);
+  const [bookmarkBy, setBookmarkBy] = useState(user?.bookmarks);
   const hasBookmarked = bookmarkBy.includes(post?._id);
   const hasLiked = likedBy.includes(user._id);
 
@@ -46,7 +46,7 @@ const PostCard = ({
     try {
       const { data } = await API.post(`/auth/bookmark-post/${post?._id}`);
       if (data.Success) {
-        setBookmarkBy(data.bookmarks);
+        setBookmarkBy(data?.bookmarks);
       }
     } catch (error) {
       toast.error(error.message);
