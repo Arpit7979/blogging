@@ -7,6 +7,7 @@ import {
   getSinglePost,
   likePost,
   updatePost,
+  searchPost,
 } from "../controller/postController.js";
 import { useAuth } from "../middleware/useAuth.js";
 
@@ -19,5 +20,6 @@ postRouter.put("/update-post/:id", useAuth, updatePost);
 postRouter.delete("/delete-post/:id", useAuth, deletePost);
 postRouter.put("/like-post/:id", useAuth, likePost);
 postRouter.get("/category/:category", getPostsByCategory);
+postRouter.get("/search-post", searchPost);
 
 export default postRouter;

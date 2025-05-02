@@ -126,3 +126,34 @@ export const uploadProfilePic = async (req, res) => {
     res.json({ Success: false, message: error.message });
   }
 };
+
+//bookmarks posts
+export const toggleBookmarkPosts = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    if (!postId) return res.json({ Success: false, message: "Post not found" });
+    const user = await userModel.findById(req.user._id);
+    const alreadyBookmark = user.bookmarks.includes(postId);
+    if (alreadyBookmark) {
+      user.bookmarks = user.bookmarks.filter(
+        (id) => id.toString() !== postId.toString()
+      );
+    } else {
+      user.bookmarks.push(postId);
+    }
+    await user.save();
+    res.json({ Success: true, bookmarks: user.bookmarks });
+  } catch (error) {
+    res.json({ Success: false, message: error.message });
+  }
+};
+
+//get bookmark post
+export const getBookmarkPost = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id).populate("bookmarks");
+    res.json({ Success: true, bookmarks: user.bookmarks });
+  } catch (error) {
+    res.json({ Success: false, message: error.message });
+  }
+};

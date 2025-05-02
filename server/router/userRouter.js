@@ -1,10 +1,12 @@
 import express from "express";
 import {
+  getBookmarkPost,
   getUserProfile,
   isAuth,
   loginUser,
   logoutUser,
   registerUser,
+  toggleBookmarkPosts,
   uploadProfilePic,
 } from "../controller/userController.js";
 import { useAuth } from "../middleware/useAuth.js";
@@ -23,5 +25,7 @@ UserRouter.put(
   upload.single("profilePic"),
   uploadProfilePic
 );
+UserRouter.post("/bookmark-post/:postId", useAuth, toggleBookmarkPosts);
+UserRouter.get("/get-bookmarks", useAuth, getBookmarkPost);
 
 export default UserRouter;

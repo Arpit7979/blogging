@@ -1,4 +1,5 @@
 import postModel from "../model/postModel.js";
+import userModel from "../model/userModel.js";
 
 export const createPost = async (req, res) => {
   try {
@@ -54,9 +55,10 @@ export const updatePost = async (req, res) => {
     if (!post) return res.json({ Success: false, message: "Post not found" });
     if (post.author.toString() !== req.user.id)
       return res.json({ Success: false, message: "Only admin can update" });
-    const { title, content } = req.body;
+    const { title, content, category } = req.body;
     post.title = title || post.title;
     post.content = content || post.content;
+    post.category = category || post.category;
     await post.save();
     res.json({ Success: true, message: "Post updated" });
   } catch (error) {
@@ -121,6 +123,19 @@ export const getPostsByCategory = async (req, res) => {
   try {
     const { category } = req.params;
     const posts = await postModel.find({ category });
+    res.json({ Success: true, posts });
+  } catch (error) {
+    res.json({ Success: false, message: error.message });
+  }
+};
+
+//search post
+export const searchPost = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const posts = await postModel.find({
+      title: { $regex: query, $options: "i" },
+    });
     res.json({ Success: true, posts });
   } catch (error) {
     res.json({ Success: false, message: error.message });
