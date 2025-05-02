@@ -6,6 +6,7 @@ import connectMongoDB from "./config/mongoose.js";
 import UserRouter from "./router/userRouter.js";
 import postRouter from "./router/postRoute.js";
 import commentRouter from "./router/commentRoute.js";
+import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ const allowedOrigin = [
 app.use(express.json());
 app.use(cors({ origin: allowedOrigin, credentials: true }));
 app.use(cookieParser());
+app.use("/upload", express.static(path.join(path.resolve(), "upload")));
 
 app.use("/api/auth", UserRouter);
 app.use("/api/post", postRouter);

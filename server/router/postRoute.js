@@ -2,6 +2,7 @@ import express from "express";
 import {
   createPost,
   deletePost,
+  getPostsByCategory,
   getAllPost,
   getSinglePost,
   likePost,
@@ -17,5 +18,6 @@ postRouter.get("/single-post/:id", getSinglePost);
 postRouter.put("/update-post/:id", useAuth, updatePost);
 postRouter.delete("/delete-post/:id", useAuth, deletePost);
 postRouter.put("/like-post/:id", useAuth, likePost);
+postRouter.get("/category/:category", getPostsByCategory);
 
 export default postRouter;

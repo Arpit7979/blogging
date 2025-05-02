@@ -2,10 +2,15 @@ import postModel from "../model/postModel.js";
 
 export const createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    if (!title || !content)
+    const { title, content, category } = req.body;
+    if (!title || !content || !category)
       return res.json({ Success: false, message: "Missing fields" });
-    const newPost = new postModel({ title, content, author: req.user._id });
+    const newPost = new postModel({
+      title,
+      content,
+      author: req.user._id,
+      category,
+    });
     await newPost.save();
     return res.json({
       Success: true,
@@ -18,7 +23,10 @@ export const createPost = async (req, res) => {
 
 export const getAllPost = async (req, res) => {
   try {
-    const posts = await postModel.find().populate("author", "name");
+    const posts = await postModel
+      .find()
+      .populate("author", "name")
+      .sort({ createdAt: -1 });
     res.json({ Success: true, posts: posts });
   } catch (error) {
     return res.json({ Success: false, message: error.message });
@@ -103,6 +111,17 @@ export const likePost = async (req, res) => {
       name: req.user.name,
       message,
     });
+  } catch (error) {
+    res.json({ Success: false, message: error.message });
+  }
+};
+
+//filter category
+export const getPostsByCategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    const posts = await postModel.find({ category });
+    res.json({ Success: true, posts });
   } catch (error) {
     res.json({ Success: false, message: error.message });
   }

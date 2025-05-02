@@ -6,10 +6,27 @@ import PostCard from "../components/PostCard";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const categories = ["All", "Technology", "Lifestyle", "Health", "Education"];
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isActivePostId, setIsActivePostId] = useState(null);
+  const [category, setCategory] = useState("All");
+
+  //fetch post on selected category
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const endPoint =
+          category === "All" ? "/post/all-post" : `/post/category/${category}`;
+        const { data } = await API.get(endPoint);
+        if (data.Success) setPosts(data.posts);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    fetchPost();
+  }, [category]);
 
   const getAllPost = async () => {
     try {
@@ -49,10 +66,18 @@ const HomePage = () => {
     );
   if (posts.length === 0)
     return (
-      <div className="bg-slate-900 w-screen h-screen flex items-center justify-center">
-        <h2 className="text-5xl font-bold text-white">
+      <div className="bg-slate-900 w-screen h-screen flex items-center justify-center flex-col text-center">
+        <h2 className="md:text-5xl text-3xl font-bold text-white">
           There is no Post. Create First Post
         </h2>
+        <div className="bg-slate-700 m-10 rounded-lg  hover:bg-slate-800 transition-all">
+          <button
+            onClick={() => navigate("/create-post")}
+            className="text-4xl p-5 text-white font-bold cursor-pointer"
+          >
+            Create New Post
+          </button>
+        </div>
         ;
       </div>
     );
@@ -60,7 +85,7 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
-      <div className="h-fit w-full bg-slate-800 flex flex-col items-center justify-center pt-30">
+      <div className="min-h-screen w-full bg-slate-800 flex flex-col items-center justify-center pt-30">
         <div className="bg-slate-700 m-10 rounded-lg  hover:bg-slate-900 transition-all">
           <button
             onClick={() => navigate("/create-post")}
@@ -68,6 +93,19 @@ const HomePage = () => {
           >
             Create New Post
           </button>
+        </div>
+        <div className="text-white flex gap-4 flex-wrap w-full items-center justify-center">
+          {categories.map((cat, i) => (
+            <button
+              key={i}
+              onClick={() => setCategory(cat)}
+              className={`px-4 py-1 rounded-2xl cursor-pointer font-bold ${
+                category === cat ? "bg-indigo-800" : "bg-slate-900"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
         {posts.map((post) => (
           <PostCard

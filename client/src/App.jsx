@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import { ToastContainer } from "react-toastify";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/create-post" element={<CreatePost />} />
         <Route path="/edit-post/:id" element={<EditPost />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   );

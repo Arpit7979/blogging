@@ -6,6 +6,7 @@ const postSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   createdAt: { type: Date, default: Date.now },
   likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] }],
+  category: { type: String, required: true },
 });
 
 const postModel = mongoose.model("Post", postSchema);

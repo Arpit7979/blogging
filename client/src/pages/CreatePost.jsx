@@ -8,11 +8,17 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
+  const categories = ["All", "Technology", "Lifestyle", "Health", "Education"];
 
   const handleForm = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post("/post/create-post", { title, content });
+      const { data } = await API.post("/post/create-post", {
+        title,
+        content,
+        category,
+      });
       if (data.Success) {
         toast.success(data.message);
         navigate("/");
@@ -23,10 +29,10 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-slate-900 text-white flex items-center justify-center">
+    <div className="w-full min-h-screen bg-slate-900 text-white flex items-center justify-center">
       <Navbar />
       <form
-        className="w-[80%] md:h-[60%] h-[70%] flex flex-col items-center justify-center rounded-lg bg-gradient-to-l from-slate-600 to-slate-800 p-10"
+        className="w-[80%] md:h-[60%] h-fit flex flex-col items-center justify-center rounded-lg bg-gradient-to-l from-slate-600 to-slate-800 p-10 mt-30 mb-10"
         action=""
       >
         <h2 className="text-5xl font-bold mb-5">Create Post</h2>
@@ -44,6 +50,22 @@ const CreatePost = () => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
+        <div className="text-white flex gap-4 flex-wrap">
+          {categories.map((cat, i) => (
+            <button
+              type="button"
+              key={i}
+              onClick={() => {
+                setCategory(cat);
+              }}
+              className={`px-4 py-1 rounded-2xl cursor-pointer font-bold ${
+                category === cat ? "bg-indigo-800" : "bg-slate-900"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
         <button
           className="p-2 cursor-pointer bg-slate-800 rounded-lg px-8 mt-3"

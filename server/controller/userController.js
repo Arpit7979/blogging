@@ -1,6 +1,9 @@
 import userModel from "../model/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import postModel from "../model/postModel.js";
+import path from "path";
+import fs from "fs";
 
 export const registerUser = async (req, res) => {
   try {
@@ -89,5 +92,37 @@ export const isAuth = async (req, res) => {
     });
   } catch (error) {
     return res.json({ Success: false, message: error.message });
+  }
+};
+
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id).select("-password");
+    const userPost = await postModel
+      .find({ author: req.user._id })
+      .sort({ createdAt: -1 });
+    res.json({ Success: true, user, userPost });
+  } catch (error) {
+    res.json({ Success: false, message: error.message });
+  }
+};
+
+//upload profile pic
+export const uploadProfilePic = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    //delete old imgage if it exist
+    if (user.profilePic) {
+      const oldPath = path.join(path.resolve(), user.profilePic);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+      }
+    }
+    //save new image path
+    user.profilePic = `/upload/${req.file.filename}`;
+    await user.save();
+    res.json({ Success: true, profilePic: user.profilePic });
+  } catch (error) {
+    res.json({ Success: false, message: error.message });
   }
 };

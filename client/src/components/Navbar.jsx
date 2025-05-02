@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
-  const { isAuthonticated, logout } = useContext(AuthContext);
+  const { isAuthonticated, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   return (
     <div className="w-full h-[100px] bg-slate-900 text-white flex justify-between items-center p-10 fixed top-0 z-99">
@@ -14,8 +14,17 @@ const Navbar = () => {
         Blogging
       </h1>
       {isAuthonticated ? (
-        <div className="cursor-pointer" onClick={logout}>
-          <h4>Logout</h4>
+        <div className="flex gap-5 items-center">
+          <h4 className="cursor-pointer" onClick={() => navigate("/profile")}>
+            <img
+              src={import.meta.env.VITE_BACKEND_URL_IMG + user?.profilePic}
+              className="w-8 h-8 rounded-full"
+              alt=""
+            />
+          </h4>
+          <h4 className="cursor-pointer" onClick={logout}>
+            <img src="/logout.png" className="w-10 h-10" alt="" />
+          </h4>
         </div>
       ) : (
         <div className="flex gap-4">

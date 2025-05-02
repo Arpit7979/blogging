@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import API from "../../api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ const PostCard = ({
 }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { title, content } = post;
+  const { title, content, category } = post;
   const [likedBy, setLikedBy] = useState(post.likedBy || []);
   const [loading, setLoading] = useState(false);
   const hasLiked = likedBy?.some((u) => u === user?._id);
@@ -39,11 +39,24 @@ const PostCard = ({
       setLoading(false);
     }
   };
+  useEffect(() => {
+    const getCommentNo = async () => {
+      try {
+        const { data } = await API.get(`/comment/get-comments/${post._id}`);
+        if (data.Success) {
+          setNoOfComment(data.comments.length);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    getCommentNo();
+  }, []);
 
   return (
     <div className="md:w-[50%] w-[80%] h-[20%] p-10 my-5 bg-slate-900 text-white rounded-lg relative">
       <h4 className="text-xs text-gray-500 absolute right-5 bottom-5">
-        Author : {post.author.name.toUpperCase()}
+        Author : {post?.author.name?.toUpperCase()}
       </h4>
       <img
         src="/pencil.svg"
@@ -83,16 +96,13 @@ const PostCard = ({
       </div>
 
       <div className="p-3">
+        <h6 className="text-[10px] text-gray-400">#{category}</h6>
         <h2 className="text-2xl font-bold ">{title}</h2>
         <p className="text-sm font-semibold text-gray-400">{content}</p>
       </div>
       {isActive && (
         <div className=" md:left-250 flex items-center justify-center z-99 fixed inset-0 bg-black/10 backdrop-blur-sm">
-          <CommentPopup
-            postId={post._id}
-            onClose={onClose}
-            setNoOfComment={setNoOfComment}
-          />
+          <CommentPopup postId={post._id} onClose={onClose} />
         </div>
       )}
     </div>
