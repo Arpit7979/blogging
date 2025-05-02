@@ -15,16 +15,19 @@ const Navbar = () => {
       </h1>
       {isAuthonticated ? (
         <div className="flex gap-5 items-center">
-          <h4 className="cursor-pointer" onClick={() => navigate("/profile")}>
+          <div className="cursor-pointer" onClick={() => navigate("/profile")}>
             <img
               src={import.meta.env.VITE_BACKEND_URL_IMG + user?.profilePic}
               className="w-8 h-8 rounded-full"
               alt=""
             />
-          </h4>
-          <h4 className="cursor-pointer" onClick={logout}>
+          </div>
+          <div className="cursor-pointer" onClick={() => navigate("/bookmark")}>
+            <img className="h-8 w-8" src="/bookmark-solid.png" alt="" />
+          </div>
+          <div className="cursor-pointer" onClick={logout}>
             <img src="/logout.png" className="w-10 h-10" alt="" />
-          </h4>
+          </div>
         </div>
       ) : (
         <div className="flex gap-4">

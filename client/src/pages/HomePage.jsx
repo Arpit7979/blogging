@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import API from "../../api";
 import PostCard from "../components/PostCard";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const HomePage = () => {
   const categories = ["All", "Technology", "Lifestyle", "Health", "Education"];
@@ -12,6 +13,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [isActivePostId, setIsActivePostId] = useState(null);
   const [category, setCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
 
   //fetch post on selected category
   useEffect(() => {
@@ -27,6 +29,20 @@ const HomePage = () => {
     };
     fetchPost();
   }, [category]);
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(async () => {
+      try {
+        const { data } = await API.get(`/post/search-post?query=${searchTerm}`);
+        if (data.Success) {
+          setPosts(data.posts);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }, 500);
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm]);
 
   const getAllPost = async () => {
     try {
@@ -56,14 +72,7 @@ const HomePage = () => {
     }
   };
 
-  if (loading)
-    return (
-      <div className="bg-slate-900 w-screen h-screen flex items-center justify-center">
-        <h1 className="text-5xl font-bold text-white">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-        </h1>
-      </div>
-    );
+  if (loading) return <Loading />;
   if (posts.length === 0)
     return (
       <div className="bg-slate-900 w-screen h-screen flex items-center justify-center flex-col text-center">
@@ -107,6 +116,13 @@ const HomePage = () => {
             </button>
           ))}
         </div>
+        <input
+          type="text"
+          className="w-[50%] bg-gray-300 outline-none rounded-lg p-3 mt-3 text-lg shadow-sm"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search Post!"
+        />
         {posts.map((post) => (
           <PostCard
             post={post}

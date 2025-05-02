@@ -16,9 +16,11 @@ const PostCard = ({
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { title, content, category } = post;
-  const [likedBy, setLikedBy] = useState(post.likedBy || []);
+  const [likedBy, setLikedBy] = useState(post.likedBy);
   const [loading, setLoading] = useState(false);
-  const hasLiked = likedBy?.some((u) => u === user?._id);
+  const [bookmarkBy, setBookmarkBy] = useState(user.bookmarks);
+  const hasBookmarked = bookmarkBy.includes(post?._id);
+  const hasLiked = likedBy.includes(user._id);
 
   const [noOfComment, setNoOfComment] = useState(0);
 
@@ -37,6 +39,17 @@ const PostCard = ({
       toast.error(error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleBookmark = async () => {
+    try {
+      const { data } = await API.post(`/auth/bookmark-post/${post?._id}`);
+      if (data.Success) {
+        setBookmarkBy(data.bookmarks);
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
   useEffect(() => {
@@ -105,6 +118,22 @@ const PostCard = ({
           <CommentPopup postId={post._id} onClose={onClose} />
         </div>
       )}
+      {/* bookmarks */}
+      <div>
+        {hasBookmarked ? (
+          <img
+            className="w-6 h-6 absolute top-2 left-12 cursor-pointer"
+            src="/bookmark-solid.png"
+            onClick={handleBookmark}
+          />
+        ) : (
+          <img
+            className="w-6 h-6 absolute top-2 left-12 cursor-pointer"
+            src="bookmark-outline.png"
+            onClick={handleBookmark}
+          />
+        )}
+      </div>
     </div>
   );
 };

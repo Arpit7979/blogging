@@ -9,14 +9,17 @@ const EditPost = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [category, setCategory] = useState("");
+  const categories = ["All", "Technology", "Lifestyle", "Health", "Education"];
 
   const getSinglePost = async () => {
     try {
       const { data } = await API.get(`/post/single-post/${id}`);
       if (data.Success) {
-        const { title, content } = data.post;
+        const { title, content, category } = data.post;
         setTitle(title);
         setContent(content);
+        setCategory(category);
       } else {
         toast.error(data.message);
       }
@@ -34,6 +37,7 @@ const EditPost = () => {
       const { data } = await API.put(`post/update-post/${id}`, {
         title,
         content,
+        category,
       });
       if (data.Success) {
         toast.success(data.message);
@@ -68,7 +72,22 @@ const EditPost = () => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-
+        <div className="text-white flex gap-4 flex-wrap">
+          {categories.map((cat, i) => (
+            <button
+              type="button"
+              key={i}
+              onClick={() => {
+                setCategory(cat);
+              }}
+              className={`px-4 py-1 rounded-2xl cursor-pointer font-bold ${
+                category === cat ? "bg-indigo-800" : "bg-slate-900"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
         <button
           className="p-2 cursor-pointer bg-slate-800 rounded-lg px-8 mt-3"
           type="submit"
