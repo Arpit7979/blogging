@@ -19,8 +19,8 @@ const PostCard = ({
   const [likedBy, setLikedBy] = useState(post.likedBy);
   const [loading, setLoading] = useState(false);
   const [bookmarkBy, setBookmarkBy] = useState(user?.bookmarks);
-  const hasBookmarked = bookmarkBy.includes(post?._id);
-  const hasLiked = likedBy.includes(user._id);
+  const hasBookmarked = bookmarkBy?.includes(post?._id);
+  const hasLiked = likedBy?.includes(user._id);
 
   const [noOfComment, setNoOfComment] = useState(0);
 
