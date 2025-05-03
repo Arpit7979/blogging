@@ -44,21 +44,21 @@ const RegisterPage = () => {
       >
         <h2 className="text-5xl font-bold mb-5">Register</h2>
         <input
-          className="outline-none p-4 py-2 rounded-lg text-lg bg-gray-100 text-black"
+          className="w-[95%] outline-none p-4 py-2 rounded-lg text-lg bg-gray-100 text-black"
           type="text"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
-          className="outline-none p-4 py-2 rounded-lg text-lg bg-gray-100 text-black my-5"
+          className="w-[95%] outline-none p-4 py-2 rounded-lg text-lg bg-gray-100 text-black my-5"
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          className="outline-none p-4 py-2 rounded-lg text-lg bg-gray-100 text-black"
+          className="w-[95%] outline-none p-4 py-2 rounded-lg text-lg bg-gray-100 text-black"
           type="password"
           placeholder="Password"
           value={password}

@@ -71,7 +71,7 @@ const PostCard = ({
   return (
     <div className="md:w-[50%] w-[80%] h-[20%] p-10 my-5 bg-slate-900 text-white rounded-lg relative">
       <h4 className="text-xs text-gray-500 absolute right-5 bottom-5">
-        Author : {post?.author.name?.toUpperCase()}
+        Author : {post?.author?.name?.toUpperCase()}
       </h4>
       <img
         src="/pencil.svg"

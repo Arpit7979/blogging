@@ -118,7 +118,7 @@ const HomePage = () => {
         </div>
         <input
           type="text"
-          className="w-[50%] bg-gray-300 outline-none rounded-lg p-3 mt-3 text-lg shadow-sm"
+          className="md:w-[50%] w-[78%] bg-gray-300 outline-none rounded-lg p-3 mt-3 text-lg shadow-sm"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search Post!"

@@ -6,7 +6,7 @@ const Navbar = () => {
   const { isAuthonticated, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   return (
-    <div className="w-full h-[100px] bg-slate-900 text-white flex justify-between items-center p-10 fixed top-0 z-99">
+    <div className="w-full h-[100px] bg-slate-900 text-white flex justify-between items-center md:p-10 p-4 fixed top-0 z-99">
       <h1
         onClick={() => navigate("/")}
         className="text-4xl font-bold cursor-pointer"
@@ -14,7 +14,7 @@ const Navbar = () => {
         Blogging
       </h1>
       {isAuthonticated ? (
-        <div className="flex gap-5 items-center">
+        <div className="flex md:gap-5 gap-2 items-center">
           <div className="cursor-pointer" onClick={() => navigate("/profile")}>
             <img
               src={import.meta.env.VITE_BACKEND_URL_IMG + user?.profilePic}
@@ -30,7 +30,7 @@ const Navbar = () => {
           </div>
         </div>
       ) : (
-        <div className="flex gap-4">
+        <div className="flex md:gap-4 gap-2 text-[10px] items-center justify-between">
           <a href="/login">
             <h4>Login</h4>
           </a>
