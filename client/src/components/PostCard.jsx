@@ -20,14 +20,14 @@ const PostCard = ({
   const [loading, setLoading] = useState(false);
   const [bookmarkBy, setBookmarkBy] = useState(user?.bookmarks);
   const hasBookmarked = bookmarkBy?.includes(post?._id);
-  const hasLiked = likedBy?.includes(user._id);
+  const hasLiked = likedBy?.includes(user?._id);
 
   const [noOfComment, setNoOfComment] = useState(0);
 
   const handleLike = async () => {
     setLoading(true);
     try {
-      const { data } = await API.put(`/post/like-post/${post._id}`);
+      const { data } = await API.put(`/post/like-post/${post?._id}`);
       if (data.Success) {
         setLikedBy(data.likedBy.map((id) => id.toString()));
         getAllPost();
@@ -47,6 +47,8 @@ const PostCard = ({
       const { data } = await API.post(`/auth/bookmark-post/${post?._id}`);
       if (data.Success) {
         setBookmarkBy(data?.bookmarks);
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
       toast.error(error.message);
